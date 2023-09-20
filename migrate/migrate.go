@@ -1,8 +1,6 @@
 package main
 
 import (
-	"fmt"
-
 	config "github.com/ArthurRF/runners-api/configs"
 	"github.com/ArthurRF/runners-api/internal/entity"
 )
@@ -12,13 +10,6 @@ func init() {
 }
 
 func main() {
-	user, err := entity.NewUser("Alexandre", "emailteste", "abcdefg")
-	if err != nil {
-		fmt.Println(err)
-	}
-
-	db := config.DB
-	pk := db.Create(&user)
-
-	fmt.Println(pk)
+	config.DB.AutoMigrate(&entity.User{})
+	config.DB.AutoMigrate(&entity.Event{})
 }
