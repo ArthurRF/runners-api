@@ -1,17 +1,15 @@
 package entity
 
 import (
-	"github.com/ArthurRF/runners-api/pkg/entity"
 	"golang.org/x/crypto/bcrypt"
 	"gorm.io/gorm"
 )
 
 type User struct {
 	gorm.Model
-	ID       entity.ID `json:"id" gorm:"primaryKey;autoIncrement:true"`
-	Name     string    `json:"name"`
-	Email    string    `json:"email"`
-	Password string    `json:"-"` // password nunca será exibido para o usuário final
+	Name     string `json:"name"`
+	Email    string `json:"email"`
+	Password string `json:"-"` // password nunca será exibido para o usuário final
 }
 
 func NewUser(name, email, password string) (*User, error) {
