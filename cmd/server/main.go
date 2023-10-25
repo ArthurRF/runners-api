@@ -2,23 +2,30 @@ package main
 
 import (
 	"fmt"
+	"net/http"
 
 	config "github.com/ArthurRF/runners-api/configs"
-	"github.com/ArthurRF/runners-api/internal/entity"
+	"github.com/labstack/echo/v4"
+	"github.com/spf13/viper"
 )
 
 func init() {
 	config.ConnectToDB()
+	config.LoadConfig(".env")
 }
 
 func main() {
-	user, err := entity.NewUser("Alexandre", "emailteste", "abcdefg")
-	if err != nil {
-		fmt.Println(err)
-	}
+	// Echo instance
+	e := echo.New()
 
-	db := config.DB
-	pk := db.Create(&user)
+	// Routes
+	e.GET("/", hello)
 
-	fmt.Println(pk)
+	// Start server
+	e.Logger.Fatal(e.Start(fmt.Sprintf(":%v", viper.Get("WEB_SERVER_PORT"))))
+}
+
+// Handler
+func hello(c echo.Context) error {
+	return c.String(http.StatusOK, "Hello, World!")
 }
