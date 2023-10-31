@@ -15,14 +15,17 @@ func init() {
 }
 
 func main() {
-	// Echo instance
 	e := echo.New()
 
 	// Routes
 	e.GET("/", hello)
 
-	// Start server
-	e.Logger.Fatal(e.Start(fmt.Sprintf(":%v", viper.Get("WEB_SERVER_PORT"))))
+	port := ":3333"
+
+	if viper.Get("WEB_SERVER_PORT") != nil {
+		port = fmt.Sprintf(":%v", viper.Get("WEB_SERVER_PORT"))
+	}
+	e.Logger.Fatal(e.Start(port))
 }
 
 // Handler
