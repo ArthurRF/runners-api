@@ -1,6 +1,7 @@
 package eventRepositories
 
 import (
+	"errors"
 	config "runners-api/configs"
 	"runners-api/internal/entity"
 )
@@ -21,4 +22,10 @@ func Create(event *entity.Event) (*entity.Event, error) {
 	}
 
 	return event, nil
+}
+
+func Update(id int, event *entity.Event) (*entity.Event, error) {
+	return nil, errors.New("method not implemented")
+
+	// return event, nil
 }
