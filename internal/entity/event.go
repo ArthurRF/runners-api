@@ -7,10 +7,10 @@ import (
 )
 
 type Event struct {
-	ID             uint      `json:"id" gorm:"primaryKey;autoIncrement:true"`
-	Name           string    `json:"name" gorm:"not null"`
-	Description    string    `json:"description"`
-	CreatedAt      time.Time `json:"createdAt"`
-	UpdatedAt      time.Time `json:"updatedAt"`
-	gorm.DeletedAt `gorm:"index"`
+	ID          uint           `json:"id" gorm:"primaryKey;autoIncrement:true"`
+	Name        string         `json:"name" gorm:"not null"`
+	Description string         `json:"description"`
+	CreatedAt   time.Time      `json:"createdAt"`
+	UpdatedAt   time.Time      `json:"updatedAt"`
+	DeletedAt   gorm.DeletedAt `json:"deletedAt"gorm:"index"`
 }
