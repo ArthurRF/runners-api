@@ -3,6 +3,7 @@ package config
 import (
 	"fmt"
 
+	"github.com/spf13/viper"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 )
@@ -11,8 +12,13 @@ var DB *gorm.DB
 
 func ConnectToDB() {
 	var err error
+	host := viper.Get("DB_HOST")
+	user := viper.Get("DB_USER")
+	password := viper.Get("DB_PASS")
+	dbname := viper.Get("DB_NAME")
+	port := viper.Get("DB_PORT")
 
-	dsn := "host=berry.db.elephantsql.com user=vvywiiyq password=sxy9VQsOBHsdE1LJJ6zeoZcdlbj56djc dbname=vvywiiyq port=5432 sslmode=disable TimeZone=America/Sao_Paulo"
+	dsn := fmt.Sprintf("host=%s user=%s password=%s dbname=%s port=%s sslmode=disable TimeZone=America/Sao_Paulo", host, user, password, dbname, port)
 	DB, err = gorm.Open(postgres.Open(dsn), &gorm.Config{})
 
 	if err != nil {

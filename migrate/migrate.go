@@ -1,11 +1,12 @@
 package main
 
 import (
-	config "github.com/ArthurRF/runners-api/configs"
-	"github.com/ArthurRF/runners-api/internal/entity"
+	config "runners-api/configs"
+	"runners-api/internal/entity"
 )
 
 func init() {
+	config.LoadConfig()
 	config.ConnectToDB()
 }
 

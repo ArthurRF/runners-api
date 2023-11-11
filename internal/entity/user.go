@@ -9,7 +9,7 @@ type User struct {
 	gorm.Model
 	Name     string `json:"name"`
 	Email    string `json:"email"`
-	Password string `json:"-"` // password nunca será exibido para o usuário final
+	Password string `json:"-"` // password will never be translated to json
 }
 
 func NewUser(name, email, password string) (*User, error) {

@@ -1,26 +1,16 @@
 package entity
 
 import (
-	"errors"
+	"time"
 
 	"gorm.io/gorm"
 )
 
-var (
-	ErrInvalidEntity = errors.New("invalid entity")
-)
-
 type Event struct {
-	gorm.Model
-	ID          int64  `json:"id" gorm:"primaryKey;autoIncrement:true"`
-	Name        string `json:"name"`
-	Description string `json:"description"`
-}
-
-func (e *Event) Validate() error {
-	if e.ID == 0 {
-		return ErrInvalidEntity
-	}
-
-	return nil
+	ID             uint      `json:"id" gorm:"primaryKey;autoIncrement:true"`
+	Name           string    `json:"name" gorm:"not null"`
+	Description    string    `json:"description"`
+	CreatedAt      time.Time `json:"createdAt"`
+	UpdatedAt      time.Time `json:"updatedAt"`
+	gorm.DeletedAt `gorm:"index"`
 }
