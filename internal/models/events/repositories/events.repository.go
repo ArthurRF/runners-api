@@ -1,4 +1,4 @@
-package repositories
+package eventRepositories
 
 import (
 	config "runners-api/configs"
@@ -13,4 +13,12 @@ func GetAll() ([]entity.Event, error) {
 	}
 
 	return events, nil
+}
+
+func Create(event *entity.Event) (*entity.Event, error) {
+	if err := config.DB.Create(&event).Error; err != nil {
+		return nil, err
+	}
+
+	return event, nil
 }

@@ -1,7 +1,7 @@
 package routes
 
 import (
-	"runners-api/internal/models/events/controllers"
+	eventControllers "runners-api/internal/models/events/controllers"
 
 	"github.com/gofiber/fiber/v2"
 )
@@ -9,8 +9,8 @@ import (
 func EventRoutes(app *fiber.App) {
 	eventGroup := app.Group("/events")
 
-	eventGroup.Get("/", controllers.GetAllEvents)
-	// eventGroup.Post("/", controllers.CreateUser)
-	// eventGroup.Put("/:id", controllers.UpdateUser)
-	// eventGroup.Delete("/:id", controllers.DeleteUser)
+	eventGroup.Get("/", eventControllers.GetAll)
+	eventGroup.Post("/", eventControllers.Create)
+	eventGroup.Put("/:id", eventControllers.Update)
+	eventGroup.Delete("/:id", eventControllers.Delete)
 }
