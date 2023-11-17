@@ -2,8 +2,11 @@ package eventControllers
 
 import (
 	"runners-api/internal/entity"
+	eventDtos "runners-api/internal/models/events/dtos"
 	eventUseCases "runners-api/internal/models/events/usecases"
 	"strconv"
+
+	"github.com/go-playground/validator/v10"
 
 	"github.com/gofiber/fiber/v2"
 )
@@ -19,18 +22,24 @@ func GetAll(c *fiber.Ctx) error {
 }
 
 func Create(c *fiber.Ctx) error {
-	event := new(entity.Event)
+	event := new(eventDtos.CreateEventDto)
 	if err := c.BodyParser(event); err != nil {
 		return err
 	}
 
-	eventCreated, err := eventUseCases.Create(event)
+	validator := validator.New()
+	err := validator.Struct(event)
+	if err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(err.Error())
+	}
+
+	err = eventUseCases.Create(event)
 
 	if err != nil {
 		return err
 	}
 
-	return c.Status(fiber.StatusCreated).JSON(eventCreated)
+	return c.Status(fiber.StatusCreated).Send(nil)
 }
 
 func Update(c *fiber.Ctx) error {

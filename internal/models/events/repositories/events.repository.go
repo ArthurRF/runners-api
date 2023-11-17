@@ -4,6 +4,8 @@ import (
 	"errors"
 	config "runners-api/configs"
 	"runners-api/internal/entity"
+
+	eventDtos "runners-api/internal/models/events/dtos"
 )
 
 func GetAll() ([]entity.Event, error) {
@@ -16,12 +18,18 @@ func GetAll() ([]entity.Event, error) {
 	return events, nil
 }
 
-func Create(event *entity.Event) (*entity.Event, error) {
-	if err := config.DB.Create(&event).Error; err != nil {
-		return nil, err
+func Create(event *eventDtos.CreateEventDto) error {
+	eventToCreate := entity.Event{
+		Name:        event.Name,
+		Description: event.Description,
 	}
 
-	return event, nil
+	returnData := config.DB.Create(&eventToCreate)
+	if returnData.Error != nil {
+		return returnData.Error
+	}
+
+	return nil
 }
 
 func Update(id int, event *entity.Event) (*entity.Event, error) {
