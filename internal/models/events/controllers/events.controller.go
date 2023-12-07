@@ -1,19 +1,17 @@
 package eventControllers
 
 import (
-	eventUseCases "runners-api/internal/models/events/usecases"
-
 	"github.com/gofiber/fiber/v2"
 )
 
 func GetAll(c *fiber.Ctx) error {
-	events, err := eventUseCases.GetAll()
+	// events, err := eventUseCases.GetAll()
 
-	if err != nil {
-		return err
-	}
+	// if err != nil {
+	// 	return err
+	// }
 
-	return c.Status(fiber.StatusOK).JSON(events)
+	return c.Status(fiber.StatusOK).JSON(nil)
 }
 
 func Create(c *fiber.Ctx) error {
