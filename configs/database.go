@@ -3,12 +3,13 @@ package config
 import (
 	"fmt"
 
+	"database/sql"
+
+	_ "github.com/lib/pq"
 	"github.com/spf13/viper"
-	"gorm.io/driver/postgres"
-	"gorm.io/gorm"
 )
 
-var DB *gorm.DB
+var DB *sql.DB
 
 func ConnectToDB() {
 	var err error
@@ -18,12 +19,16 @@ func ConnectToDB() {
 	dbname := viper.Get("DB_NAME")
 	port := viper.Get("DB_PORT")
 
-	dsn := fmt.Sprintf("host=%s user=%s password=%s dbname=%s port=%s sslmode=disable TimeZone=America/Sao_Paulo", host, user, password, dbname, port)
-	DB, err = gorm.Open(postgres.Open(dsn), &gorm.Config{})
+	connStr := fmt.Sprintf("postgres://%s:%s@%s:%s/%s?sslmode=disable", user, password, host, port, dbname)
+	DB, err = sql.Open("postgres", connStr)
 
 	if err != nil {
 		panic(err)
 	}
 
-	fmt.Println("Connection Opened to Database")
+	if err = DB.Ping(); err != nil {
+		panic(err)
+	}
+
+	fmt.Println("The database is connected")
 }

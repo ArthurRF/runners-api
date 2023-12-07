@@ -2,11 +2,9 @@ package entity
 
 import (
 	"golang.org/x/crypto/bcrypt"
-	"gorm.io/gorm"
 )
 
 type User struct {
-	gorm.Model
 	Name     string `json:"name"`
 	Email    string `json:"email"`
 	Password string `json:"-"` // password will never be translated to json

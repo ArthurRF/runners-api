@@ -2,34 +2,33 @@ package eventRepositories
 
 import (
 	"errors"
-	config "runners-api/configs"
 	"runners-api/internal/entity"
 
 	eventDtos "runners-api/internal/models/events/dtos"
 )
 
 func GetAll() ([]entity.Event, error) {
-	var events []entity.Event
+	// var events []entity.Event
 
-	if err := config.DB.Find(&events).Error; err != nil {
-		return nil, err
-	}
+	// if err := config.DB.Find(&events).Error; err != nil {
+	// 	return nil, err
+	// }
 
-	return events, nil
+	return nil, errors.New("method not implemented")
 }
 
 func Create(event *eventDtos.CreateEventDto) error {
-	eventToCreate := entity.Event{
-		Name:        event.Name,
-		Description: event.Description,
-	}
+	// eventToCreate := entity.Event{
+	// 	Name:        event.Name,
+	// 	Description: event.Description,
+	// }
 
-	returnData := config.DB.Create(&eventToCreate)
-	if returnData.Error != nil {
-		return returnData.Error
-	}
+	// returnData := config.DB.Create(&eventToCreate)
+	// if returnData.Error != nil {
+	// 	return returnData.Error
+	// }
 
-	return nil
+	return errors.New("method not implemented")
 }
 
 func Update(id int, event *entity.Event) (*entity.Event, error) {
