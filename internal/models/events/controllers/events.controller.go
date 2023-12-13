@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"github.com/go-chi/chi"
 	"net/http"
+	"runners-api/internal/entity"
 	eventUseCases "runners-api/internal/models/events/usecases"
 	"strconv"
 )
@@ -23,18 +24,20 @@ func GetAll(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
 		w.Write([]byte(err.Error()))
+		return
 	}
 
 	w.WriteHeader(http.StatusOK)
 }
 
 func GetOneByID(w http.ResponseWriter, r *http.Request) {
-	eventID := chi.URLParam(r, "eventId")
+	eventID := chi.URLParam(r, "eventID")
 
 	convertedEventID, err := strconv.Atoi(eventID)
 	if err != nil {
 		w.WriteHeader(http.StatusBadRequest)
 		w.Write([]byte(err.Error()))
+		return
 	}
 
 	event, err := eventUseCases.GetOneByID(uint(convertedEventID))
@@ -55,24 +58,22 @@ func GetOneByID(w http.ResponseWriter, r *http.Request) {
 }
 
 func Create(w http.ResponseWriter, r *http.Request) {
-	// event := new(eventDtos.CreateEventDto)
-	// if err := c.BodyParser(event); err != nil {
-	// 	return err
-	// }
+	event := new(entity.Event)
+	err := json.NewDecoder(r.Body).Decode(&event)
+	if err != nil {
+		w.WriteHeader(http.StatusBadRequest)
+		w.Write([]byte(err.Error()))
+		return
+	}
 
-	// validator := validator.New()
-	// err := validator.Struct(event)
-	// if err != nil {
-	// 	return c.Status(fiber.StatusBadRequest).JSON(err.Error())
-	// }
+	err = eventUseCases.Create(event.Name, event.Description)
+	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		w.Write([]byte(err.Error()))
+		return
+	}
 
-	// err = eventUseCases.Create(event)
-
-	// if err != nil {
-	// 	return err
-	// }
-
-	w.WriteHeader(http.StatusOK)
+	w.WriteHeader(http.StatusCreated)
 }
 
 func Update(w http.ResponseWriter, r *http.Request) {
@@ -96,4 +97,24 @@ func Update(w http.ResponseWriter, r *http.Request) {
 	// }
 
 	w.WriteHeader(http.StatusOK)
+}
+
+func Delete(w http.ResponseWriter, r *http.Request) {
+	eventID := chi.URLParam(r, "eventID")
+
+	convertedID, err := strconv.Atoi(eventID)
+	if err != nil {
+		w.WriteHeader(http.StatusBadRequest)
+		w.Write([]byte(err.Error()))
+		return
+	}
+
+	err = eventUseCases.Delete(uint(convertedID))
+	if err != nil {
+		w.WriteHeader(http.StatusBadRequest)
+		w.Write([]byte(err.Error()))
+		return
+	}
+
+	w.WriteHeader(http.StatusNoContent)
 }

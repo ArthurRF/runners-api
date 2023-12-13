@@ -9,6 +9,8 @@ import (
 func EventRoutes(r chi.Router) {
 	r.Route("/events", func(r chi.Router) {
 		r.Get("/", eventControllers.GetAll)
-		r.Get("/{eventId}", eventControllers.GetOneByID)
+		r.Get("/{eventID}", eventControllers.GetOneByID)
+		r.Post("/", eventControllers.Create)
+		r.Delete("/{eventID}", eventControllers.Delete)
 	})
 }
