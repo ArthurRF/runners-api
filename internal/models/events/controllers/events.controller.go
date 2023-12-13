@@ -5,6 +5,7 @@ import (
 	"github.com/go-chi/chi"
 	"net/http"
 	eventUseCases "runners-api/internal/models/events/usecases"
+	"strconv"
 )
 
 func GetAll(w http.ResponseWriter, r *http.Request) {
@@ -28,11 +29,17 @@ func GetAll(w http.ResponseWriter, r *http.Request) {
 }
 
 func GetOneByID(w http.ResponseWriter, r *http.Request) {
-	eventId := chi.URLParam(r, "eventId")
+	eventID := chi.URLParam(r, "eventId")
 
-	event, err := eventUseCases.GetOneByID(eventId)
+	convertedEventID, err := strconv.Atoi(eventID)
 	if err != nil {
-		w.WriteHeader(http.StatusInternalServerError)
+		w.WriteHeader(http.StatusBadRequest)
+		w.Write([]byte(err.Error()))
+	}
+
+	event, err := eventUseCases.GetOneByID(uint(convertedEventID))
+	if err != nil {
+		w.WriteHeader(http.StatusNotFound)
 		w.Write([]byte(err.Error()))
 		return
 	}
