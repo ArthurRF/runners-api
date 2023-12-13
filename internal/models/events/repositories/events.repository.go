@@ -19,12 +19,12 @@ func GetAll() ([]entity.Event, error) {
 	return events, nil
 }
 
-func GetOneByID(id uint) (*entity.Event, error) {
+func GetOneByID(ID uint) (*entity.Event, error) {
 	var eventFound entity.Event
 
-	if err := config.DB.First(&eventFound, id).Error; err != nil {
+	if err := config.DB.First(&eventFound, ID).Error; err != nil {
 		if errors.Is(err, gorm.ErrRecordNotFound) {
-			return nil, fmt.Errorf("event with ID %d not found", id)
+			return nil, fmt.Errorf("event with ID %d not found", ID)
 		}
 		return nil, err
 	}
@@ -39,6 +39,15 @@ func Create(name string, description string) error {
 	}
 
 	returnData := config.DB.Create(&eventToCreate)
+	if returnData.Error != nil {
+		return returnData.Error
+	}
+
+	return nil
+}
+
+func Delete(ID uint) error {
+	returnData := config.DB.Delete(ID)
 	if returnData.Error != nil {
 		return returnData.Error
 	}
