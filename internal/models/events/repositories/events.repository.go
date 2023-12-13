@@ -6,8 +6,6 @@ import (
 	config "runners-api/configs"
 	"runners-api/internal/entity"
 
-	eventDtos "runners-api/internal/models/events/dtos"
-
 	"gorm.io/gorm"
 )
 
@@ -34,10 +32,10 @@ func GetOneByID(id uint) (*entity.Event, error) {
 	return &eventFound, nil
 }
 
-func Create(event *eventDtos.CreateEventDto) error {
+func Create(name string, description string) error {
 	eventToCreate := entity.Event{
-		Name:        event.Name,
-		Description: event.Description,
+		Name:        name,
+		Description: description,
 	}
 
 	returnData := config.DB.Create(&eventToCreate)

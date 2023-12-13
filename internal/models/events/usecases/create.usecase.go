@@ -1,12 +1,11 @@
 package eventUseCases
 
 import (
-	eventDtos "runners-api/internal/models/events/dtos"
 	eventRepositories "runners-api/internal/models/events/repositories"
 )
 
-func Create(event *eventDtos.CreateEventDto) error {
-	err := eventRepositories.Create(event)
+func Create(name string, description string) error {
+	err := eventRepositories.Create(name, description)
 
 	if err != nil {
 		return err
