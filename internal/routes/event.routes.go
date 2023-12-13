@@ -9,5 +9,6 @@ import (
 func EventRoutes(r chi.Router) {
 	r.Route("/events", func(r chi.Router) {
 		r.Get("/", eventControllers.GetAll)
+		r.Get("/{eventId}", eventControllers.GetOneByID)
 	})
 }

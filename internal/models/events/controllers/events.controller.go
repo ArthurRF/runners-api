@@ -2,6 +2,7 @@ package eventControllers
 
 import (
 	"encoding/json"
+	"github.com/go-chi/chi"
 	"net/http"
 	eventUseCases "runners-api/internal/models/events/usecases"
 )
@@ -24,6 +25,26 @@ func GetAll(w http.ResponseWriter, r *http.Request) {
 	}
 
 	w.WriteHeader(http.StatusOK)
+}
+
+func GetOneByID(w http.ResponseWriter, r *http.Request) {
+	eventId := chi.URLParam(r, "eventId")
+
+	event, err := eventUseCases.GetOneByID(eventId)
+	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		w.Write([]byte(err.Error()))
+		return
+	}
+
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(http.StatusOK)
+
+	err = json.NewEncoder(w).Encode(event)
+	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		w.Write([]byte(err.Error()))
+	}
 }
 
 func Create(w http.ResponseWriter, r *http.Request) {
