@@ -1,15 +1,27 @@
 package eventControllers
 
 import (
+	"encoding/json"
 	"net/http"
+	eventUseCases "runners-api/internal/models/events/usecases"
 )
 
 func GetAll(w http.ResponseWriter, r *http.Request) {
-	// events, err := eventUseCases.GetAll()
+	events, err := eventUseCases.GetAll()
+	if err != nil {
+		w.WriteHeader(http.StatusBadRequest)
+		w.Write([]byte(err.Error()))
+		return
+	}
 
-	// if err != nil {
-	// 	return err
-	// }
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(http.StatusOK)
+
+	err = json.NewEncoder(w).Encode(events)
+	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		w.Write([]byte(err.Error()))
+	}
 
 	w.WriteHeader(http.StatusOK)
 }
@@ -40,24 +52,20 @@ func Update(w http.ResponseWriter, r *http.Request) {
 	// parsedId, err := strconv.Atoi(id)
 
 	// if err != nil {
-	// 	return err
+	//     return err
 	// }
 
 	// event := new(entity.Event)
 
 	// if err := c.BodyParser(event); err != nil {
-	// 	return err
+	//     return err
 	// }
 
 	// eventUpdated, err := eventUseCases.Update(parsedId, event)
 
 	// if err != nil {
-	// 	return err
+	//     return err
 	// }
 
-	w.WriteHeader(http.StatusOK)
-}
-
-func Delete(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusOK)
 }

@@ -2,19 +2,20 @@ package eventRepositories
 
 import (
 	"errors"
+	config "runners-api/configs"
 	"runners-api/internal/entity"
 
 	eventDtos "runners-api/internal/models/events/dtos"
 )
 
 func GetAll() ([]entity.Event, error) {
-	// var events []entity.Event
+	var events []entity.Event
 
-	// if err := config.DB.Find(&events).Error; err != nil {
-	// 	return nil, err
-	// }
+	if err := config.DB.Find(&events).Error; err != nil {
+		return nil, err
+	}
 
-	return nil, errors.New("method not implemented")
+	return events, nil
 }
 
 func Create(event *eventDtos.CreateEventDto) error {
