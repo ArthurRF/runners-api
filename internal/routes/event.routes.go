@@ -3,14 +3,11 @@ package routes
 import (
 	eventControllers "runners-api/internal/models/events/controllers"
 
-	"github.com/gofiber/fiber/v2"
+	"github.com/go-chi/chi"
 )
 
-func EventRoutes(app *fiber.App) {
-	eventGroup := app.Group("/events")
-
-	eventGroup.Get("/", eventControllers.GetAll)
-	eventGroup.Post("/", eventControllers.Create)
-	eventGroup.Put("/:id", eventControllers.Update)
-	eventGroup.Delete("/:id", eventControllers.Delete)
+func EventRoutes(r chi.Router) {
+	r.Route("/events", func(r chi.Router) {
+		r.Get("/", eventControllers.GetAll)
+	})
 }

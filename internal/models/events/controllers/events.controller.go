@@ -1,20 +1,20 @@
 package eventControllers
 
 import (
-	"github.com/gofiber/fiber/v2"
+	"net/http"
 )
 
-func GetAll(c *fiber.Ctx) error {
+func GetAll(w http.ResponseWriter, r *http.Request) {
 	// events, err := eventUseCases.GetAll()
 
 	// if err != nil {
 	// 	return err
 	// }
 
-	return c.Status(fiber.StatusOK).JSON(nil)
+	w.WriteHeader(http.StatusOK)
 }
 
-func Create(c *fiber.Ctx) error {
+func Create(w http.ResponseWriter, r *http.Request) {
 	// event := new(eventDtos.CreateEventDto)
 	// if err := c.BodyParser(event); err != nil {
 	// 	return err
@@ -32,10 +32,10 @@ func Create(c *fiber.Ctx) error {
 	// 	return err
 	// }
 
-	return c.Status(fiber.StatusCreated).Send(nil)
+	w.WriteHeader(http.StatusOK)
 }
 
-func Update(c *fiber.Ctx) error {
+func Update(w http.ResponseWriter, r *http.Request) {
 	// id := c.Params("id")
 	// parsedId, err := strconv.Atoi(id)
 
@@ -55,9 +55,9 @@ func Update(c *fiber.Ctx) error {
 	// 	return err
 	// }
 
-	return c.Status(fiber.StatusOK).JSON(nil)
+	w.WriteHeader(http.StatusOK)
 }
 
-func Delete(c *fiber.Ctx) error {
-	return nil
+func Delete(w http.ResponseWriter, r *http.Request) {
+	w.WriteHeader(http.StatusOK)
 }
