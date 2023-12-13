@@ -47,7 +47,7 @@ func Create(name string, description string) error {
 }
 
 func Delete(ID uint) error {
-	returnData := config.DB.Delete(ID)
+	returnData := config.DB.Delete(&entity.Event{}, ID)
 	if returnData.Error != nil {
 		return returnData.Error
 	}
