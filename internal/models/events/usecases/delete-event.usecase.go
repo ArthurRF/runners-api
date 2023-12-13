@@ -5,7 +5,12 @@ import (
 )
 
 func Delete(eventID uint) error {
-	err := eventRepositories.Delete(eventID)
+	_, err := eventRepositories.GetOneByID(eventID)
+	if err != nil {
+		return err
+	}
+
+	err = eventRepositories.Delete(eventID)
 	if err != nil {
 		return err
 	}

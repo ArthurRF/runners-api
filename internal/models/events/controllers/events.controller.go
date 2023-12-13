@@ -111,7 +111,7 @@ func Delete(w http.ResponseWriter, r *http.Request) {
 
 	err = eventUseCases.Delete(uint(convertedID))
 	if err != nil {
-		w.WriteHeader(http.StatusBadRequest)
+		w.WriteHeader(http.StatusInternalServerError)
 		w.Write([]byte(err.Error()))
 		return
 	}
