@@ -77,6 +77,4 @@ func Update(id int, event *entity.Event) (*entity.Event, *shared.AppError) {
 		Message:    "method not implemented.",
 		StatusCode: http.StatusInternalServerError,
 	}
-
-	// return event, nil
 }
