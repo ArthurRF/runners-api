@@ -2,25 +2,26 @@ package eventControllers
 
 import (
 	"encoding/json"
-	"github.com/go-chi/chi"
 	"net/http"
 	"runners-api/internal/entity"
 	eventUseCases "runners-api/internal/models/events/usecases"
 	"strconv"
+
+	"github.com/go-chi/chi"
 )
 
 func GetAll(w http.ResponseWriter, r *http.Request) {
-	events, err := eventUseCases.GetAll()
-	if err != nil {
-		w.WriteHeader(http.StatusBadRequest)
-		w.Write([]byte(err.Error()))
+	events, appErr := eventUseCases.GetAll()
+	if appErr != nil {
+		w.WriteHeader(int(appErr.StatusCode))
+		w.Write([]byte(appErr.Message))
 		return
 	}
 
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusOK)
 
-	err = json.NewEncoder(w).Encode(events)
+	err := json.NewEncoder(w).Encode(events)
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
 		w.Write([]byte(err.Error()))
@@ -40,10 +41,10 @@ func GetOneByID(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	event, err := eventUseCases.GetOneByID(uint(convertedEventID))
-	if err != nil {
-		w.WriteHeader(http.StatusNotFound)
-		w.Write([]byte(err.Error()))
+	event, appErr := eventUseCases.GetOneByID(uint(convertedEventID))
+	if appErr != nil {
+		w.WriteHeader(int(appErr.StatusCode))
+		w.Write([]byte(appErr.Message))
 		return
 	}
 
@@ -66,10 +67,16 @@ func Create(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	err = eventUseCases.Create(event.Name, event.Description)
-	if err != nil {
-		w.WriteHeader(http.StatusInternalServerError)
-		w.Write([]byte(err.Error()))
+	if event.Name == "" {
+		w.WriteHeader(http.StatusBadRequest)
+		w.Write([]byte("the property 'name' is required."))
+		return
+	}
+
+	appErr := eventUseCases.Create(event.Name, event.Description)
+	if appErr != nil {
+		w.WriteHeader(int(appErr.StatusCode))
+		w.Write([]byte(appErr.Message))
 		return
 	}
 
@@ -109,10 +116,10 @@ func Delete(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	err = eventUseCases.Delete(uint(convertedID))
-	if err != nil {
-		w.WriteHeader(http.StatusInternalServerError)
-		w.Write([]byte(err.Error()))
+	appErr := eventUseCases.Delete(uint(convertedID))
+	if appErr != nil {
+		w.WriteHeader(int(appErr.StatusCode))
+		w.Write([]byte(appErr.Message))
 		return
 	}
 

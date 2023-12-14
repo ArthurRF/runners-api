@@ -1,7 +1,6 @@
 package shared
 
-type IError struct {
-	Field string
-	Tag   string
-	Value string
+type AppError struct {
+	Message    string
+	StatusCode uint
 }

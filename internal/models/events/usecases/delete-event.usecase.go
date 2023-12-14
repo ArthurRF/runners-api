@@ -2,17 +2,18 @@ package eventUseCases
 
 import (
 	eventRepositories "runners-api/internal/models/events/repositories"
+	"runners-api/internal/shared"
 )
 
-func Delete(eventID uint) error {
-	_, err := eventRepositories.GetOneByID(eventID)
-	if err != nil {
-		return err
+func Delete(eventID uint) *shared.AppError {
+	_, appErr := eventRepositories.GetOneByID(eventID)
+	if appErr != nil {
+		return appErr
 	}
 
-	err = eventRepositories.Delete(eventID)
-	if err != nil {
-		return err
+	appErr = eventRepositories.Delete(eventID)
+	if appErr != nil {
+		return appErr
 	}
 
 	return nil
