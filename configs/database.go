@@ -26,5 +26,5 @@ func ConnectToDB() {
 		panic(err)
 	}
 
-	fmt.Println("The database is connected")
+	fmt.Println("The database is connected...")
 }

@@ -24,6 +24,7 @@ func main() {
 
 	port := viper.Get("WEB_SERVER_PORT")
 
+	fmt.Printf("Server starting on port %s\n", port)
 	err := http.ListenAndServe(fmt.Sprintf(":%s", port), r)
 	if err != nil {
 		panic(err)
