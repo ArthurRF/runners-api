@@ -11,4 +11,4 @@ seed:
 		atlas migrate new seed_$(name)
 
 m-apply:
-		atlas migrate apply --url ${DB_URL}
+		atlas migrate hash; atlas migrate apply --url ${DB_URL}
