@@ -1,2 +1,5 @@
 .env
 __debug*
+.DS_STORE
+
+/migrations/atlas.sum

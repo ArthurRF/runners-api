@@ -3,7 +3,6 @@ package config
 import (
 	"fmt"
 
-	_ "github.com/lib/pq"
 	"github.com/spf13/viper"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
