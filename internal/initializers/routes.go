@@ -14,4 +14,5 @@ func Routes(r chi.Router) {
 	r.Use(middleware.Recoverer)
 
 	routes.EventRoutes(r)
+	routes.UserRoutes(r)
 }

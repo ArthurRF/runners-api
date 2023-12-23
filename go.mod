@@ -4,8 +4,10 @@ go 1.21.1
 
 require (
 	ariga.io/atlas-provider-gorm v0.2.0
+	github.com/dgrijalva/jwt-go v3.2.0+incompatible
 	github.com/go-chi/chi v1.5.1
 	github.com/go-chi/jwtauth v1.2.0
+	github.com/google/uuid v1.1.2
 	github.com/lib/pq v1.10.9
 	github.com/spf13/viper v1.16.0
 	gorm.io/driver/postgres v1.5.4
