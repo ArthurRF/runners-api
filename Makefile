@@ -1,6 +1,9 @@
 include .env
 .PHONY: m-generate
 
+dev:
+		go run cmd/server/main.go
+
 m-generate:
 		atlas migrate diff --env gorm
 

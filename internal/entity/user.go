@@ -9,7 +9,7 @@ import (
 
 type User struct {
 	ID        uuid.UUID      `json:"id" gorm:"primaryKey;type:uuid;default:gen_random_uuid()"`
-	GoogleID  int            `json:"googleId" gorm:"unique"`
+	GoogleID  string         `json:"googleId" gorm:"unique"`
 	Name      string         `json:"name" gorm:"not null"`
 	Email     string         `json:"email"`
 	AvatarUrl string         `json:"avatarUrl"`

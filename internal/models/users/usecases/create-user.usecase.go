@@ -11,11 +11,11 @@ import (
 	"github.com/spf13/viper"
 )
 
-func Auth(name string, googleID int, avatarUrl string, email string) (*entity.UserTokens, *shared.AppError) {
+func Auth(name string, googleID string, avatarUrl string, email string) (*entity.UserTokens, *shared.AppError) {
 	var user *entity.User
 	var err *shared.AppError
 
-	if googleID != 0 {
+	if googleID != "" {
 		user, err = userRepositories.FindByGoogleID(googleID)
 
 		// error on searching the user

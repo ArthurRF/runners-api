@@ -10,7 +10,7 @@ import (
 	"gorm.io/gorm"
 )
 
-func FindByGoogleID(googleID int) (*entity.User, *shared.AppError) {
+func FindByGoogleID(googleID string) (*entity.User, *shared.AppError) {
 	var userFound entity.User
 
 	if err := config.DB.First(&userFound, "google_id = ?", googleID).Error; err != nil {
@@ -27,7 +27,7 @@ func FindByGoogleID(googleID int) (*entity.User, *shared.AppError) {
 	return &userFound, nil
 }
 
-func Create(name string, googleID int, avatarUrl string, email string) (*entity.User, *shared.AppError) {
+func Create(name string, googleID string, avatarUrl string, email string) (*entity.User, *shared.AppError) {
 	user := entity.User{
 		Name:      name,
 		Email:     email,
