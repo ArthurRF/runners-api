@@ -23,7 +23,7 @@ func Auth(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	tokens, appErr := userUseCases.Auth(user.Name, user.GoogleID, user.AvatarUrl, user.Email)
+	tokens, appErr := userUseCases.Auth(user.Name, user.ClerkID, user.AvatarUrl, user.Email)
 	if appErr != nil {
 		w.WriteHeader(int(appErr.StatusCode))
 		w.Write([]byte(appErr.Message))

@@ -10,10 +10,10 @@ import (
 	"gorm.io/gorm"
 )
 
-func FindByGoogleID(googleID string) (*entity.User, *shared.AppError) {
+func FindByClerkID(clerkID string) (*entity.User, *shared.AppError) {
 	var userFound entity.User
 
-	if err := config.DB.First(&userFound, "google_id = ?", googleID).Error; err != nil {
+	if err := config.DB.First(&userFound, "clerk_id = ?", clerkID).Error; err != nil {
 		if errors.Is(err, gorm.ErrRecordNotFound) {
 			return nil, nil
 		}
@@ -27,12 +27,12 @@ func FindByGoogleID(googleID string) (*entity.User, *shared.AppError) {
 	return &userFound, nil
 }
 
-func Create(name string, googleID string, avatarUrl string, email string) (*entity.User, *shared.AppError) {
+func Create(name string, clerkID string, avatarUrl string, email string) (*entity.User, *shared.AppError) {
 	user := entity.User{
 		Name:      name,
 		Email:     email,
 		AvatarUrl: avatarUrl,
-		GoogleID:  googleID,
+		ClerkID:   clerkID,
 	}
 
 	returnData := config.DB.Create(&user)

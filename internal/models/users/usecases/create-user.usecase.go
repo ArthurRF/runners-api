@@ -11,21 +11,21 @@ import (
 	"github.com/spf13/viper"
 )
 
-func Auth(name string, googleID string, avatarUrl string, email string) (*entity.UserTokens, *shared.AppError) {
+func Auth(name string, clerkId string, avatarUrl string, email string) (*entity.UserTokens, *shared.AppError) {
 	var user *entity.User
 	var err *shared.AppError
 
-	if googleID != "" {
-		user, err = userRepositories.FindByGoogleID(googleID)
+	if clerkId != "" {
+		user, err = userRepositories.FindByClerkID(clerkId)
 
 		// error on searching the user
 		if err != nil {
 			return nil, err
 		}
 
-		// user with this google id not found
+		// user with this clerk id not found
 		if user == nil {
-			userCreated, repoErr := userRepositories.Create(name, googleID, avatarUrl, email)
+			userCreated, repoErr := userRepositories.Create(name, clerkId, avatarUrl, email)
 
 			if repoErr != nil {
 				return nil, repoErr
