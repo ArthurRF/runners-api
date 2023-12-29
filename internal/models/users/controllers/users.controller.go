@@ -23,6 +23,12 @@ func Auth(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	if user.ClerkID == "" {
+		w.WriteHeader(http.StatusBadRequest)
+		w.Write([]byte("the property 'clerkId' is required."))
+		return
+	}
+
 	tokens, appErr := userUseCases.Auth(user.Name, user.ClerkID, user.AvatarUrl, user.Email)
 	if appErr != nil {
 		w.WriteHeader(int(appErr.StatusCode))
