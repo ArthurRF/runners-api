@@ -7,6 +7,7 @@ import (
 	"runners-api/internal/entity"
 	"runners-api/internal/shared"
 
+	"github.com/google/uuid"
 	"gorm.io/gorm"
 )
 
@@ -27,7 +28,7 @@ func FindByClerkID(clerkID string) (*entity.User, *shared.AppError) {
 	return &userFound, nil
 }
 
-func Create(name string, clerkID string, avatarUrl string, email string) (*entity.User, *shared.AppError) {
+func Create(clerkID string, name string, avatarUrl string, email string) (*entity.User, *shared.AppError) {
 	user := entity.User{
 		Name:      name,
 		Email:     email,
@@ -36,6 +37,26 @@ func Create(name string, clerkID string, avatarUrl string, email string) (*entit
 	}
 
 	returnData := config.DB.Create(&user)
+	if returnData.Error != nil {
+		return nil, &shared.AppError{
+			Message:    returnData.Error.Error(),
+			StatusCode: http.StatusInternalServerError,
+		}
+	}
+
+	return &user, nil
+}
+
+func Update(ID uuid.UUID, clerkID string, name string, avatarUrl string, email string) (*entity.User, *shared.AppError) {
+	user := entity.User{
+		ID:        ID,
+		Name:      name,
+		Email:     email,
+		AvatarUrl: avatarUrl,
+		ClerkID:   clerkID,
+	}
+
+	returnData := config.DB.Save(&user)
 	if returnData.Error != nil {
 		return nil, &shared.AppError{
 			Message:    returnData.Error.Error(),

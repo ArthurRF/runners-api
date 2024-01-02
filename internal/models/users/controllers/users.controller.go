@@ -7,7 +7,7 @@ import (
 	userUseCases "runners-api/internal/models/users/usecases"
 )
 
-func Auth(w http.ResponseWriter, r *http.Request) {
+func Upsert(w http.ResponseWriter, r *http.Request) {
 	user := new(entity.User)
 	err := json.NewDecoder(r.Body).Decode(&user)
 
@@ -29,23 +29,15 @@ func Auth(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	tokens, appErr := userUseCases.Auth(user.Name, user.ClerkID, user.AvatarUrl, user.Email)
+	appErr := userUseCases.Upsert(user.ClerkID, user.Name, user.AvatarUrl, user.Email)
 	if appErr != nil {
 		w.WriteHeader(int(appErr.StatusCode))
 		w.Write([]byte(appErr.Message))
 		return
 	}
 
-	if tokens.AccessToken == "" {
-		w.WriteHeader(http.StatusInternalServerError)
-		w.Write([]byte("error generating the tokens."))
-		return
-	}
-
 	w.Header().Set("Content-Type", "application/json")
-	w.WriteHeader(http.StatusCreated)
-
-	err = json.NewEncoder(w).Encode(tokens)
+	w.WriteHeader(http.StatusOK)
 
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)

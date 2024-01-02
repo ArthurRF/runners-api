@@ -8,6 +8,6 @@ import (
 
 func UserRoutes(r chi.Router) {
 	r.Route("/users", func(r chi.Router) {
-		r.Post("/auth", userControllers.Auth)
+		r.Post("/upsert", userControllers.Upsert)
 	})
 }
